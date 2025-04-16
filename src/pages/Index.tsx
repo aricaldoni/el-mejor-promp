@@ -1,9 +1,7 @@
-
 import { useState } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
 import EnhancedPrompt from "@/components/EnhancedPrompt";
-import ApiKeyInput from "@/components/ApiKeyInput";
 import { enhancePrompt } from "@/utils/openai";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
@@ -11,30 +9,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowRight, CircleHelp, Zap } from "lucide-react";
 
 const Index = () => {
-  const [apiKey, setApiKey] = useState<string>("");
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handlePromptSubmit = async (prompt: string) => {
-    if (!apiKey) {
-      toast({
-        title: "Clave API Requerida",
-        description: "Por favor, introduce tu clave API de OpenAI primero.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
     try {
-      const result = await enhancePrompt({ prompt, apiKey });
+      const result = await enhancePrompt({ prompt });
       setEnhancedPrompt(result);
     } catch (error) {
       console.error("Failed to enhance prompt:", error);
       toast({
         title: "Mejora Fallida",
-        description: "Hubo un error al mejorar tu prompt. Por favor verifica tu clave API e intenta de nuevo.",
+        description: "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.",
         variant: "destructive",
       });
     } finally {
@@ -56,10 +44,6 @@ const Index = () => {
             <p className="mt-4 text-lg text-muted-foreground">
               Ingresa tu prompt en español y obtén una versión optimizada y profesional en segundos.
             </p>
-          </div>
-
-          <div className="flex justify-end mb-4">
-            <ApiKeyInput onApiKeyChange={setApiKey} />
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
@@ -154,4 +138,3 @@ const Index = () => {
 };
 
 export default Index;
-

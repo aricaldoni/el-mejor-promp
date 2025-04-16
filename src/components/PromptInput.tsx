@@ -68,4 +68,3 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
 };
 
 export default PromptInput;
-

@@ -1,31 +1,18 @@
 
 interface EnhancePromptOptions {
   prompt: string;
-  apiKey: string;
 }
 
-export async function enhancePrompt({ prompt, apiKey }: EnhancePromptOptions): Promise<string> {
+export async function enhancePrompt({ prompt }: EnhancePromptOptions): Promise<string> {
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    // En un entorno real, esta URL sería reemplazada por tu función de Supabase Edge
+    // Ejemplo: const response = await fetch('https://[proyecto-id].supabase.co/functions/v1/enhance-prompt', {
+    const response = await fetch("/api/enhance-prompt", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content: `Actúa como un ingeniero experto en prompts. Revisa y mejora el siguiente prompt para que sea más claro, específico y efectivo para obtener mejores resultados de una IA generativa. Devuelve SOLO el prompt mejorado, sin añadir explicaciones, saludos ni texto introductorio.`,
-          },
-          {
-            role: "user",
-            content: `Prompt original: ${prompt}`,
-          },
-        ],
-        temperature: 0.7,
-      }),
+      body: JSON.stringify({ prompt }),
     });
 
     if (!response.ok) {
@@ -33,7 +20,7 @@ export async function enhancePrompt({ prompt, apiKey }: EnhancePromptOptions): P
     }
 
     const data = await response.json();
-    return data.choices[0].message.content.trim();
+    return data.enhancedPrompt;
   } catch (error) {
     console.error("Error enhancing prompt:", error);
     throw error;
