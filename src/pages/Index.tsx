@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
@@ -54,7 +53,12 @@ const Index = () => {
             
             <div className="w-full max-w-2xl">
               {enhancedPrompt ? (
-                <EnhancedPrompt prompt={enhancedPrompt} />
+                <>
+                  <div className="text-center text-sm text-muted-foreground mb-2">
+                    Puedes copiar el prompt mejorado haciendo clic en el botón "Copiar al Portapapeles"
+                  </div>
+                  <EnhancedPrompt prompt={enhancedPrompt} />
+                </>
               ) : (
                 <Card className="border-dashed">
                   <CardHeader>
