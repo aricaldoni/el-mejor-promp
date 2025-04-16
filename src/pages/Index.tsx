@@ -6,7 +6,7 @@ import { enhancePrompt } from "@/utils/openai";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, CircleHelp, Zap } from "lucide-react";
+import { CircleHelp, Zap } from "lucide-react";
 
 const Index = () => {
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
@@ -47,23 +47,10 @@ const Index = () => {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <div>
+            <div className="flex items-center justify-center">
               <PromptInput onSubmit={handlePromptSubmit} isLoading={isLoading} />
             </div>
-            <div className="flex items-center justify-center md:hidden">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
-                <ArrowRight className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-            <div className="hidden md:flex items-center justify-center">
-              <div className="flex flex-col items-center">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <ArrowRight className="h-5 w-5 text-primary" />
-                </div>
-                <div className="h-full w-px bg-border"></div>
-              </div>
-            </div>
-            <div>
+            <div className="flex items-center justify-center">
               {enhancedPrompt ? (
                 <EnhancedPrompt prompt={enhancedPrompt} />
               ) : (
