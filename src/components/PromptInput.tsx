@@ -38,7 +38,7 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <Textarea
           id="prompt"
-          placeholder="Escribe tu prompt aquí..."
+          placeholder="🔍 Dinos qué necesitas, nosotros afinamos el prompt por ti..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -68,3 +68,4 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
 };
 
 export default PromptInput;
+
