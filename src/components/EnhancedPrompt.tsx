@@ -25,7 +25,7 @@ const EnhancedPrompt = ({ prompt }: EnhancedPromptProps) => {
     <Card className="w-full">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Enhanced Prompt</CardTitle>
+          <CardTitle className="text-lg">Prompt Mejorado</CardTitle>
           <Button
             variant="outline"
             size="sm"
@@ -36,12 +36,12 @@ const EnhancedPrompt = ({ prompt }: EnhancedPromptProps) => {
             {copied ? (
               <>
                 <Check className="mr-2 h-4 w-4" />
-                Copied!
+                ¡Copiado!
               </>
             ) : (
               <>
                 <ClipboardCopy className="mr-2 h-4 w-4" />
-                Copy to Clipboard
+                Copiar al Portapapeles
               </>
             )}
           </Button>

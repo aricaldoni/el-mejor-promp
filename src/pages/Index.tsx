@@ -19,8 +19,8 @@ const Index = () => {
   const handlePromptSubmit = async (prompt: string) => {
     if (!apiKey) {
       toast({
-        title: "API Key Required",
-        description: "Please enter your OpenAI API key first.",
+        title: "Clave API Requerida",
+        description: "Por favor, introduce tu clave API de OpenAI primero.",
         variant: "destructive",
       });
       return;
@@ -33,8 +33,8 @@ const Index = () => {
     } catch (error) {
       console.error("Failed to enhance prompt:", error);
       toast({
-        title: "Enhancement Failed",
-        description: "There was an error enhancing your prompt. Please check your API key and try again.",
+        title: "Mejora Fallida",
+        description: "Hubo un error al mejorar tu prompt. Por favor verifica tu clave API e intenta de nuevo.",
         variant: "destructive",
       });
     } finally {
@@ -50,12 +50,12 @@ const Index = () => {
           <div className="mb-8 text-center">
             <h1 className="text-4xl font-bold tracking-tight">
               <span className="bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
-                PromptForge
+                El Mejor Prompt
               </span>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              Transform your basic prompts into powerful, detailed instructions
-              that generate better results from ChatGPT.
+              Transforma tus ideas básicas en instrucciones poderosas y detalladas 
+              que generan mejores resultados de ChatGPT.
             </p>
           </div>
 
@@ -86,9 +86,9 @@ const Index = () => {
               ) : (
                 <Card className="border-dashed">
                   <CardHeader>
-                    <CardTitle>Your enhanced prompt will appear here</CardTitle>
+                    <CardTitle>Tu prompt mejorado aparecerá aquí</CardTitle>
                     <CardDescription>
-                      Enter a prompt on the left and click "Enhance" to get started
+                      Ingresa un prompt a la izquierda y haz clic en "Mejorar" para comenzar
                     </CardDescription>
                   </CardHeader>
                 </Card>
@@ -104,11 +104,11 @@ const Index = () => {
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                   <Zap className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Improved Results</CardTitle>
+                <CardTitle className="text-xl">Mejores Resultados</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Get more accurate, detailed, and creative responses from AI by using expertly crafted prompts.
+                  Obtén respuestas más precisas, detalladas y creativas de la IA utilizando prompts expertamente elaborados.
                 </p>
               </CardContent>
             </Card>
@@ -118,11 +118,11 @@ const Index = () => {
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                   <CircleHelp className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Learn By Example</CardTitle>
+                <CardTitle className="text-xl">Aprende con Ejemplos</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Study the enhancements to learn effective prompt engineering techniques for future use.
+                  Estudia las mejoras para aprender técnicas efectivas de ingeniería de prompts para uso futuro.
                 </p>
               </CardContent>
             </Card>
@@ -132,11 +132,11 @@ const Index = () => {
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                   <ArrowRight className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-xl">One-Click Copy</CardTitle>
+                <CardTitle className="text-xl">Copiar con Un Clic</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Copy your enhanced prompt with a single click and paste it directly into ChatGPT.
+                  Copia tu prompt mejorado con un solo clic y pégalo directamente en ChatGPT.
                 </p>
               </CardContent>
             </Card>
@@ -146,7 +146,7 @@ const Index = () => {
       <footer className="py-6 md:px-8 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} PromptForge. All rights reserved.
+            &copy; {new Date().getFullYear()} El Mejor Prompt. Todos los derechos reservados.
           </p>
         </div>
       </footer>

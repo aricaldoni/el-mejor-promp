@@ -47,14 +47,14 @@ const ApiKeyInput = ({ onApiKeyChange }: ApiKeyInputProps) => {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-1">
           <Key className="h-4 w-4" />
-          API Key
+          Clave API
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>OpenAI API Key</DialogTitle>
+          <DialogTitle>Clave API de OpenAI</DialogTitle>
           <DialogDescription>
-            Enter your OpenAI API key to use this app. Your key is stored locally in your browser.
+            Ingresa tu clave API de OpenAI para usar esta aplicación. Tu clave se almacena localmente en tu navegador.
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
@@ -80,7 +80,7 @@ const ApiKeyInput = ({ onApiKeyChange }: ApiKeyInputProps) => {
                   <Eye className="h-4 w-4" />
                 )}
                 <span className="sr-only">
-                  {showApiKey ? "Hide API key" : "Show API key"}
+                  {showApiKey ? "Ocultar clave API" : "Mostrar clave API"}
                 </span>
               </Button>
             </div>
@@ -91,7 +91,7 @@ const ApiKeyInput = ({ onApiKeyChange }: ApiKeyInputProps) => {
             onClick={handleSaveApiKey} 
             disabled={!apiKey.trim().startsWith("sk-")}
           >
-            Save
+            Guardar
           </Button>
         </DialogFooter>
       </DialogContent>

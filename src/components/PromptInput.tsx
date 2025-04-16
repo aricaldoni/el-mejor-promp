@@ -29,16 +29,16 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
     <div className="w-full space-y-2">
       <div className="flex justify-between">
         <label htmlFor="prompt" className="text-sm font-medium">
-          Your Prompt
+          Tu Prompt
         </label>
         <span className="text-xs text-muted-foreground">
-          Press Ctrl+Enter to submit
+          Presiona Ctrl+Enter para enviar
         </span>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Textarea
           id="prompt"
-          placeholder="Enter your prompt here..."
+          placeholder="Escribe tu prompt aquí..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -53,12 +53,12 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
           {isLoading ? (
             <>
               <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent" />
-              Enhancing...
+              Mejorando...
             </>
           ) : (
             <>
               <Wand2 className="mr-2 h-4 w-4" />
-              Enhance Prompt
+              Mejorar Prompt
             </>
           )}
         </Button>
