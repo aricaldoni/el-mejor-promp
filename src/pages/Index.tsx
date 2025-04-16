@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
@@ -7,7 +8,6 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CircleHelp, Zap } from "lucide-react";
-import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
@@ -47,11 +47,12 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center gap-8">
+            <div className="w-full max-w-2xl">
               <PromptInput onSubmit={handlePromptSubmit} isLoading={isLoading} />
             </div>
-            <div className="flex items-center justify-center">
+            
+            <div className="w-full max-w-2xl">
               {enhancedPrompt ? (
                 <EnhancedPrompt prompt={enhancedPrompt} />
               ) : (
@@ -59,7 +60,7 @@ const Index = () => {
                   <CardHeader>
                     <CardTitle>Tu prompt mejorado aparecerá aquí</CardTitle>
                     <CardDescription>
-                      Ingresa un prompt a la izquierda y haz clic en "Mejorar" para comenzar
+                      Ingresa un prompt arriba y haz clic en "Mejorar" para comenzar
                     </CardDescription>
                   </CardHeader>
                 </Card>
@@ -101,7 +102,7 @@ const Index = () => {
             <Card>
               <CardHeader className="space-y-1">
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-                  <ArrowRight className="h-4 w-4 text-primary" />
+                  <Zap className="h-4 w-4 text-primary" />
                 </div>
                 <CardTitle className="text-xl">Copiar con Un Clic</CardTitle>
               </CardHeader>
