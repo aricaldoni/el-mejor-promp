@@ -1,26 +1,25 @@
 
-import { Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "./ModeToggle";
+import { ModeToggle } from "@/components/ModeToggle";
 
-const NavBar = () => {
+interface NavBarProps {
+  children?: React.ReactNode;
+}
+
+const NavBar = ({ children }: NavBarProps) => {
   return (
-    <nav className="border-b border-border">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          <Sparkles className="h-6 w-6 text-primary" />
-          <span className="font-semibold text-xl">El Mejor Prompt</span>
+    <header className="sticky top-0 z-40 w-full border-b bg-background">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
+            El Mejor Prompt
+          </span>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="text-muted-foreground" asChild>
-            <a href="https://github.com/your-username/el-mejor-prompt" target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-          </Button>
+          {children}
           <ModeToggle />
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
 

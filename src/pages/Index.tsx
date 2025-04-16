@@ -1,7 +1,9 @@
+
 import { useState } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
 import EnhancedPrompt from "@/components/EnhancedPrompt";
+import ApiKeyInput from "@/components/ApiKeyInput";
 import { enhancePrompt } from "@/utils/openai";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
@@ -11,7 +13,12 @@ import { CircleHelp, Zap } from "lucide-react";
 const Index = () => {
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [apiKey, setApiKey] = useState<string | null>(null);
   const { toast } = useToast();
+
+  const handleApiKeyChange = (newApiKey: string) => {
+    setApiKey(newApiKey);
+  };
 
   const handlePromptSubmit = async (prompt: string) => {
     setIsLoading(true);
@@ -22,7 +29,7 @@ const Index = () => {
       console.error("Failed to enhance prompt:", error);
       toast({
         title: "Mejora Fallida",
-        description: "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.",
+        description: "Hubo un error al mejorar tu prompt. Por favor verifica tu clave API de OpenAI.",
         variant: "destructive",
       });
     } finally {
@@ -32,7 +39,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <NavBar />
+      <NavBar>
+        <ApiKeyInput onApiKeyChange={handleApiKeyChange} />
+      </NavBar>
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 text-center">
