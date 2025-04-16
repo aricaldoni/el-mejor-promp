@@ -17,20 +17,11 @@ export async function enhancePrompt({ prompt, apiKey }: EnhancePromptOptions): P
         messages: [
           {
             role: "system",
-            content: `You are a prompt engineering expert. Your task is to take a user's prompt and enhance it to get better results from ChatGPT. 
-            Follow these guidelines:
-            1. Make the prompt more specific and detailed
-            2. Add relevant context that was implied but not stated
-            3. Structure the prompt with clear formatting for better readability
-            4. Include appropriate instructions on tone, format, and audience if missing
-            5. Consider adding constraints or specific requirements to guide the AI
-            6. Do not invent or add information that drastically changes the original intent
-            
-            Return only the enhanced prompt, without explanations or additional text. Do not include 'Enhanced Prompt:' or other headers.`,
+            content: `Actúa como un ingeniero experto en prompts. Revisa y mejora el siguiente prompt para que sea más claro, específico y efectivo para obtener mejores resultados de una IA generativa. Devuelve SOLO el prompt mejorado, sin añadir explicaciones, saludos ni texto introductorio.`,
           },
           {
             role: "user",
-            content: prompt,
+            content: `Prompt original: ${prompt}`,
           },
         ],
         temperature: 0.7,
