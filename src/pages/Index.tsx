@@ -54,8 +54,7 @@ const Index = () => {
               </span>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              Transforma tus ideas básicas en instrucciones poderosas y detalladas 
-              que generan mejores resultados de ChatGPT.
+              Ingresa tu prompt en español y obtén una versión optimizada y profesional en segundos.
             </p>
           </div>
 
@@ -155,3 +154,4 @@ const Index = () => {
 };
 
 export default Index;
+
