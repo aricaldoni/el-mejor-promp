@@ -16,9 +16,16 @@ app.use(express.json());
 // Prisma setup
 const prisma = new PrismaClient();
 
-// OpenAI setup
+// OpenAI setup - Add explicit OpenAI API key check
+const openaiApiKey = process.env.OPENAI_API_KEY;
+if (!openaiApiKey) {
+  console.error("ERROR: OPENAI_API_KEY is not set in your environment variables");
+  console.error("Please add your OpenAI API key to the .env file: OPENAI_API_KEY=your-key");
+  process.exit(1);
+}
+
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: openaiApiKey,
 });
 
 app.post('/api/enhance-prompt', async (req, res) => {
@@ -49,16 +56,21 @@ app.post('/api/enhance-prompt', async (req, res) => {
         const enhancedPrompt = completion.choices[0].message.content;
 
         // Log data to the database (using Prisma)
-        const newPromptLog = await prisma.promptLog.create({
-            data: {
-                uniqueId: Math.random().toString(36).substring(2, 15), // Generate a random string for unique ID
-                initialPrompt: prompt,
-                enhancedPrompt: enhancedPrompt || '',
-                dateAndTime: new Date(), // Current date and time
-            },
-        });
+        try {
+            const newPromptLog = await prisma.promptLog.create({
+                data: {
+                    uniqueId: Math.random().toString(36).substring(2, 15), // Generate a random string for unique ID
+                    initialPrompt: prompt,
+                    enhancedPrompt: enhancedPrompt || '',
+                    dateAndTime: new Date(), // Current date and time
+                },
+            });
 
-        console.log('Prompt Log Created:', newPromptLog);
+            console.log('Prompt Log Created:', newPromptLog);
+        } catch (dbError) {
+            console.error("Database error:", dbError);
+            // Continue with the response even if DB logging fails
+        }
 
         res.json({ enhancedPrompt });
     } catch (error) {
