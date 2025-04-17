@@ -1,9 +1,8 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
 import EnhancedPrompt from "@/components/EnhancedPrompt";
-import ApiKeyInput from "@/components/ApiKeyInput";
 import { enhancePrompt } from "@/utils/openai";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
@@ -13,31 +12,9 @@ import { CircleHelp, Zap } from "lucide-react";
 const Index = () => {
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiKey, setApiKey] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // Verificar si hay una clave API guardada al cargar
-  useEffect(() => {
-    const savedApiKey = localStorage.getItem("openai-api-key");
-    if (savedApiKey) {
-      setApiKey(savedApiKey);
-    }
-  }, []);
-
-  const handleApiKeyChange = (newApiKey: string) => {
-    setApiKey(newApiKey);
-  };
-
   const handlePromptSubmit = async (prompt: string) => {
-    if (!apiKey) {
-      toast({
-        title: "Clave API Requerida",
-        description: "Por favor, configura tu clave API de OpenAI antes de mejorar un prompt.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
     try {
       const result = await enhancePrompt({ prompt });
@@ -49,20 +26,9 @@ const Index = () => {
     } catch (error: any) {
       console.error("Failed to enhance prompt:", error);
       
-      // Mensaje de error más específico
-      let errorMessage = "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.";
-      
-      if (error.message.includes("No se encontró una clave API")) {
-        errorMessage = "No se encontró una clave API de OpenAI. Por favor, configura tu clave API.";
-      } else if (error.message.includes("clave API de OpenAI parece ser inválida")) {
-        errorMessage = "La clave API de OpenAI parece ser inválida. Asegúrate de que comience con 'sk-'.";
-      } else if (error.message.includes("Error en la API de OpenAI")) {
-        errorMessage = "Error en la comunicación con la API de OpenAI. Verifica tu clave API y tu conexión a internet.";
-      }
-      
       toast({
         title: "Mejora Fallida",
-        description: errorMessage,
+        description: "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.",
         variant: "destructive",
       });
     } finally {
@@ -72,9 +38,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <NavBar>
-        <ApiKeyInput onApiKeyChange={handleApiKeyChange} />
-      </NavBar>
+      <NavBar />
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 text-center">

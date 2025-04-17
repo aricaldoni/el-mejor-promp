@@ -1,11 +1,7 @@
 
 import { ModeToggle } from "@/components/ModeToggle";
 
-interface NavBarProps {
-  children?: React.ReactNode;
-}
-
-const NavBar = ({ children }: NavBarProps) => {
+const NavBar = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
@@ -15,7 +11,6 @@ const NavBar = ({ children }: NavBarProps) => {
           </span>
         </div>
         <div className="flex items-center gap-4">
-          {children}
           <ModeToggle />
         </div>
       </div>
