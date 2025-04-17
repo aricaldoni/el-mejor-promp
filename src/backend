@@ -1,0 +1,6 @@
+mkdir backend
+cd backend
+npm init -y
+npm install express cors dotenv openai prisma --save
+npm install typescript @types/node @types/express @types/cors -D
+npx prisma init --datasource-provider postgresql
