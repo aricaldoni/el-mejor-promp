@@ -32,7 +32,7 @@ const Index = () => {
         description: "Tu prompt ha sido mejorado exitosamente.",
       });
     } catch (error: any) {
-      console.error("Failed to enhance prompt:", error);
+      console.error("Ingresa tu prompt nuevamente:", error);
       
       toast({
         title: "Mejora Fallida",
@@ -69,7 +69,7 @@ const Index = () => {
               {enhancedPrompt ? (
                 <>
                   <div className="text-center text-sm text-muted-foreground mb-2">
-                    Puedes copiar el prompt mejorado haciendo clic en el botón "Copiar al Portapapeles"
+                    Copia el prompt haciendo clic en el botón "Copiar al Portapapeles"
                   </div>
                   <EnhancedPrompt prompt={enhancedPrompt} />
                 </>
@@ -108,11 +108,11 @@ const Index = () => {
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                   <CircleHelp className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Aprende con Ejemplos</CardTitle>
+                <CardTitle className="text-xl">Aprende mejores tecnicas</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Estudia las mejoras para aprender técnicas efectivas de ingeniería de prompts para uso futuro.
+                  Aprende ingeniería de prompts mientras utilizas la herramienta.
                 </p>
               </CardContent>
             </Card>
@@ -122,11 +122,11 @@ const Index = () => {
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                   <Zap className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Copiar con Un Clic</CardTitle>
+                <CardTitle className="text-xl">Copia con Un Clic</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Copia tu prompt mejorado con un solo clic y pégalo directamente en ChatGPT.
+                  Copia tu prompt con un solo clic y pégalo en ChatGPT, Deepseek, Gemini u otros.
                 </p>
               </CardContent>
             </Card>
@@ -136,7 +136,7 @@ const Index = () => {
       <footer className="py-6 md:px-8 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} El Mejor Prompt. Todos los derechos reservados.
+            © {new Date().getFullYear()} El Mejor Prompt. Argentina. Todos los derechos reservados.
           </p>
         </div>
       </footer>
