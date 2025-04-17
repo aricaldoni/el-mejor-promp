@@ -12,6 +12,10 @@ export async function enhancePrompt({ prompt }: EnhancePromptOptions): Promise<s
       throw new Error("No se encontró una clave API de OpenAI. Por favor, configura tu clave API.");
     }
 
+    if (!apiKey.startsWith("sk-")) {
+      throw new Error("La clave API de OpenAI parece ser inválida. Debería comenzar con 'sk-'.");
+    }
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {

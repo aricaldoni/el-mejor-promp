@@ -12,6 +12,7 @@ import {
   DialogFooter,
   DialogDescription
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ApiKeyInputProps {
   onApiKeyChange: (apiKey: string) => void;
@@ -21,6 +22,7 @@ const ApiKeyInput = ({ onApiKeyChange }: ApiKeyInputProps) => {
   const [apiKey, setApiKey] = useState<string>("");
   const [showApiKey, setShowApiKey] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   // Load API key from localStorage on component mount
   useEffect(() => {
@@ -35,10 +37,24 @@ const ApiKeyInput = ({ onApiKeyChange }: ApiKeyInputProps) => {
   }, [onApiKeyChange]);
 
   const handleSaveApiKey = () => {
-    if (apiKey) {
+    if (apiKey.trim()) {
+      if (!apiKey.startsWith("sk-")) {
+        toast({
+          title: "Clave API Inválida",
+          description: "La clave API de OpenAI debe comenzar con 'sk-'",
+          variant: "destructive",
+        });
+        return;
+      }
+
       localStorage.setItem("openai-api-key", apiKey);
       onApiKeyChange(apiKey);
       setDialogOpen(false);
+      
+      toast({
+        title: "Clave API Guardada",
+        description: "Tu clave API de OpenAI ha sido guardada correctamente.",
+      });
     }
   };
 

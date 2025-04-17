@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
 import EnhancedPrompt from "@/components/EnhancedPrompt";
@@ -16,20 +16,53 @@ const Index = () => {
   const [apiKey, setApiKey] = useState<string | null>(null);
   const { toast } = useToast();
 
+  // Verificar si hay una clave API guardada al cargar
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem("openai-api-key");
+    if (savedApiKey) {
+      setApiKey(savedApiKey);
+    }
+  }, []);
+
   const handleApiKeyChange = (newApiKey: string) => {
     setApiKey(newApiKey);
   };
 
   const handlePromptSubmit = async (prompt: string) => {
+    if (!apiKey) {
+      toast({
+        title: "Clave API Requerida",
+        description: "Por favor, configura tu clave API de OpenAI antes de mejorar un prompt.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       const result = await enhancePrompt({ prompt });
       setEnhancedPrompt(result);
-    } catch (error) {
+      toast({
+        title: "Prompt Mejorado",
+        description: "Tu prompt ha sido mejorado exitosamente.",
+      });
+    } catch (error: any) {
       console.error("Failed to enhance prompt:", error);
+      
+      // Mensaje de error más específico
+      let errorMessage = "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.";
+      
+      if (error.message.includes("No se encontró una clave API")) {
+        errorMessage = "No se encontró una clave API de OpenAI. Por favor, configura tu clave API.";
+      } else if (error.message.includes("clave API de OpenAI parece ser inválida")) {
+        errorMessage = "La clave API de OpenAI parece ser inválida. Asegúrate de que comience con 'sk-'.";
+      } else if (error.message.includes("Error en la API de OpenAI")) {
+        errorMessage = "Error en la comunicación con la API de OpenAI. Verifica tu clave API y tu conexión a internet.";
+      }
+      
       toast({
         title: "Mejora Fallida",
-        description: "Hubo un error al mejorar tu prompt. Por favor verifica tu clave API de OpenAI.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
