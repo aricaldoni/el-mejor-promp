@@ -1,18 +1,18 @@
 
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Wand2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { enhancePrompt } from "@/utils/openai";  // Import enhancePrompt
 
-interface PromptInputProps {
+interface ApiKeyInputProps {
     onSubmit: (prompt: string) => void;
     isLoading: boolean;
 }
 
-const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
+const ApiKeyInput = ({ onSubmit, isLoading }: ApiKeyInputProps) => {
     const [prompt, setPrompt] = useState("");
+    const [localIsLoading, setLocalIsLoading] = useState(false);
     const { toast } = useToast();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -27,18 +27,28 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
             return;
         }
 
-        onSubmit(prompt);
         try {
-            setIsLoading(true);
-            // Call the enhancePrompt function and pass the API key
-            const enhanced = await enhancePrompt({prompt: prompt, apiKey:""});
-            onSubmit(enhanced)
-            toast({
-                title: "Prompt Mejorado",
-                description: "Tu prompt ha sido mejorado exitosamente.",
+            setLocalIsLoading(true);
+            // Call the backend instead of direct OpenAI
+            const response = await fetch('http://localhost:3000/api/enhance-prompt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt })
             });
-            // TODO: Implement function to Log Data to backend
-        } catch (error: any) {
+            
+            if (response.ok) {
+                const data = await response.json();
+                onSubmit(data.enhancedPrompt);
+                toast({
+                    title: "Prompt Mejorado",
+                    description: "Tu prompt ha sido mejorado exitosamente.",
+                });
+            } else {
+                throw new Error('Error from server');
+            }
+        } catch (error) {
             console.error("Failed to enhance prompt:", error);
             toast({
                 title: "Mejora Fallida",
@@ -46,7 +56,7 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
                 variant: "destructive",
             });
         } finally {
-            setIsLoading(false);
+            setLocalIsLoading(false);
         }
     };
 
@@ -74,14 +84,14 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
                     onChange={(e) => setPrompt(e.target.value)}
                     onKeyDown={handleKeyDown}
                     className="min-h-[120px] resize-y"
-                    disabled={isLoading}
+                    disabled={localIsLoading || isLoading}
                 />
                 <Button
                     type="submit"
                     className="w-full"
-                    disabled={isLoading || !prompt.trim()}
+                    disabled={localIsLoading || isLoading || !prompt.trim()}
                 >
-                    {isLoading ? (
+                    {localIsLoading || isLoading ? (
                         <>
                             <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"/>
                             Mejorando...
@@ -98,4 +108,4 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
     );
 };
 
-export default PromptInput;
+export default ApiKeyInput;

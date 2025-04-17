@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Prisma setup
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 // OpenAI setup
 const openai = new OpenAI({
@@ -53,7 +53,7 @@ app.post('/api/enhance-prompt', async (req, res) => {
             data: {
                 uniqueId: Math.random().toString(36).substring(2, 15), // Generate a random string for unique ID
                 initialPrompt: prompt,
-                enhancedPrompt: enhancedPrompt,
+                enhancedPrompt: enhancedPrompt || '',
                 dateAndTime: new Date(), // Current date and time
             },
         });
