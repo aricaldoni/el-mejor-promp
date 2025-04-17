@@ -1,16 +1,16 @@
 
 interface EnhancePromptOptions {
   prompt: string;
+  apiKey: string;
 }
 
-export async function enhancePrompt({ prompt }: EnhancePromptOptions): Promise<string> {
+export async function enhancePrompt({ prompt, apiKey }: EnhancePromptOptions): Promise<string> {
   try {
-    // Usando una clave API del servidor (simulada)
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer sk-simulatedApiKey123456789"
+        "Authorization": `Bearer ${apiKey}` //  Pass the API Key
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
