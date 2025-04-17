@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Wand2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { enhancePrompt } from "@/utils/openai";  // Import enhancePrompt
+import axios from 'axios';  // Import Axios
 
 interface PromptInputProps {
     onSubmit: (prompt: string) => void;
@@ -13,16 +13,7 @@ interface PromptInputProps {
 
 const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
     const [prompt, setPrompt] = useState("");
-    const [apiKey, setApiKey] = useState<string | null>(null);  // Add state for API key
     const { toast } = useToast();
-
-    // Load API key from localStorage on component mount
-    useEffect(() => {
-        const savedApiKey = localStorage.getItem("openai-api-key");
-        if (savedApiKey) {
-            setApiKey(savedApiKey);
-        }
-    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,32 +27,28 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
             return;
         }
 
-        if (!apiKey) {
-            toast({
-                title: "API Key Required",
-                description: "Please enter your OpenAI API key before submitting.",
-                variant: "destructive",
-            });
-            return;
-        }
-
-        onSubmit(prompt);
-
         try {
             setIsLoading(true);
-            // Call the enhancePrompt function and pass the API key
-            const enhanced = await enhancePrompt({prompt: prompt, apiKey:apiKey});
-            onSubmit(enhanced)
-            toast({
-                title: "Prompt Mejorado",
-                description: "Tu prompt ha sido mejorado exitosamente.",
+            const backendEndpoint = '/api/enhance-prompt';  // Replace with the actual endpoint
+
+            const response = await axios.post(backendEndpoint, {
+                prompt: prompt
             });
-            // TODO: Implement function to Log Data to backend
-        } catch (error: any) {
-            console.error("Failed to enhance prompt:", error);
+
+            if (response.status === 200) {
+                onSubmit(response.data.enhancedPrompt); // Assuming this response has an enhancedPrompt
+            } else {
+                toast({
+                    title: "Error from Backend",
+                    description: "Error enhancing the prompt on the server.",
+                    variant: "destructive",
+                });
+            }
+        } catch (error) {
+            console.error("Error calling backend:", error);
             toast({
-                title: "Mejora Fallida",
-                description: "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.",
+                title: "Network Error",
+                description: "Failed to connect to the backend.",
                 variant: "destructive",
             });
         } finally {
