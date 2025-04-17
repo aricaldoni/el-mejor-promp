@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
 import EnhancedPrompt from "@/components/EnhancedPrompt";
@@ -13,11 +13,19 @@ const Index = () => {
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [apiKey, setApiKey] = useState<string | null>(null);
+    // Load API key from localStorage on component mount
+    useEffect(() => {
+        const savedApiKey = localStorage.getItem("openai-api-key");
+        if (savedApiKey) {
+            setApiKey(savedApiKey);
+        }
+    }, []);
 
   const handlePromptSubmit = async (prompt: string) => {
     setIsLoading(true);
     try {
-      const result = await enhancePrompt({ prompt });
+      const result = await enhancePrompt({ prompt:prompt, apiKey:apiKey! });
       setEnhancedPrompt(result);
       toast({
         title: "Prompt Mejorado",
@@ -128,7 +136,7 @@ const Index = () => {
       <footer className="py-6 md:px-8 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} El Mejor Prompt. Todos los derechos reservados.
+            © {new Date().getFullYear()} El Mejor Prompt. Todos los derechos reservados.
           </p>
         </div>
       </footer>
