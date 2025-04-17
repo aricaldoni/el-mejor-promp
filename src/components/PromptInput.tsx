@@ -1,10 +1,10 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Wand2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import axios from 'axios';  // Import Axios
+import axios from 'axios';
 
 interface PromptInputProps {
     onSubmit: (prompt: string) => void;
@@ -13,6 +13,7 @@ interface PromptInputProps {
 
 const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
     const [prompt, setPrompt] = useState("");
+    const [localIsLoading, setLocalIsLoading] = useState(false);
     const { toast } = useToast();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -20,39 +21,43 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
 
         if (!prompt.trim()) {
             toast({
-                title: "Empty Prompt",
-                description: "Please enter a prompt before submitting.",
+                title: "Prompt Vacío",
+                description: "Por favor, ingresa un prompt antes de enviar.",
                 variant: "destructive",
             });
             return;
         }
 
         try {
-            setIsLoading(true);
-            const backendEndpoint = '/api/enhance-prompt';  // Replace with the actual endpoint
+            setLocalIsLoading(true);
+            const backendUrl = 'http://localhost:3000/api/enhance-prompt';
 
-            const response = await axios.post(backendEndpoint, {
+            const response = await axios.post(backendUrl, {
                 prompt: prompt
             });
 
-            if (response.status === 200) {
-                onSubmit(response.data.enhancedPrompt); // Assuming this response has an enhancedPrompt
+            if (response.status === 200 && response.data.enhancedPrompt) {
+                onSubmit(response.data.enhancedPrompt);
+                toast({
+                    title: "¡Éxito!",
+                    description: "Tu prompt ha sido mejorado exitosamente.",
+                });
             } else {
                 toast({
-                    title: "Error from Backend",
-                    description: "Error enhancing the prompt on the server.",
+                    title: "Error del Servidor",
+                    description: "Error al mejorar el prompt en el servidor.",
                     variant: "destructive",
                 });
             }
         } catch (error) {
-            console.error("Error calling backend:", error);
+            console.error("Error al llamar al backend:", error);
             toast({
-                title: "Network Error",
-                description: "Failed to connect to the backend.",
+                title: "Error de Conexión",
+                description: "No se pudo conectar al servidor backend. Asegúrate de que el servidor esté en funcionamiento.",
                 variant: "destructive",
             });
         } finally {
-            setIsLoading(false);
+            setLocalIsLoading(false);
         }
     };
 
@@ -80,14 +85,14 @@ const PromptInput = ({ onSubmit, isLoading }: PromptInputProps) => {
                     onChange={(e) => setPrompt(e.target.value)}
                     onKeyDown={handleKeyDown}
                     className="min-h-[120px] resize-y"
-                    disabled={isLoading}
+                    disabled={localIsLoading || isLoading}
                 />
                 <Button
                     type="submit"
                     className="w-full"
-                    disabled={isLoading || !prompt.trim()}
+                    disabled={localIsLoading || isLoading || !prompt.trim()}
                 >
-                    {isLoading ? (
+                    {localIsLoading || isLoading ? (
                         <>
                             <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"/>
                             Mejorando...

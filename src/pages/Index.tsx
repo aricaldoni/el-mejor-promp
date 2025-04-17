@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import NavBar from "@/components/NavBar";
 import PromptInput from "@/components/PromptInput";
 import EnhancedPrompt from "@/components/EnhancedPrompt";
-import { enhancePrompt } from "@/utils/openai";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,35 +12,9 @@ const Index = () => {
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const [apiKey, setApiKey] = useState<string | null>(null);
-    // Load API key from localStorage on component mount
-    useEffect(() => {
-        const savedApiKey = localStorage.getItem("openai-api-key");
-        if (savedApiKey) {
-            setApiKey(savedApiKey);
-        }
-    }, []);
 
-  const handlePromptSubmit = async (prompt: string) => {
-    setIsLoading(true);
-    try {
-      const result = await enhancePrompt({ prompt:prompt, apiKey:apiKey! });
-      setEnhancedPrompt(result);
-      toast({
-        title: "Prompt Mejorado",
-        description: "Tu prompt ha sido mejorado exitosamente.",
-      });
-    } catch (error: any) {
-      console.error("Ingresa tu prompt nuevamente:", error);
-      
-      toast({
-        title: "Mejora Fallida",
-        description: "Hubo un error al mejorar tu prompt. Por favor intenta de nuevo más tarde.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const handlePromptSubmit = async (enhancedPromptText: string) => {
+    setEnhancedPrompt(enhancedPromptText);
   };
 
   return (
