@@ -1,8 +1,8 @@
 
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import OpenAI from 'openai';
+import * as dotenv from 'dotenv';
+import { OpenAI } from 'openai';
 import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
